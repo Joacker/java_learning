@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title}">Details</title>
+</head>
+<body>
+    <h1>Details Page</h1>
+    <p>This is the details page.</p>
+    <h1 th:text="${title}"></h1>
+    <ul>
+        <li th:text="${name}"></li>
+        <li th:text="${lastname}"></li>
+        <li th:text="${currentDate}"></li>
+        <li th:text="${user.name}"></li>
+    </ul>
+</body>
+</html>
