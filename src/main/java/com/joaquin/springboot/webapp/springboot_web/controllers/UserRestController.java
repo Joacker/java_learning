@@ -23,7 +23,8 @@ public class UserRestController {
         //userDto.setUser(user);
         //userDto.setUser(user.getLastname());
         //userDto.setLastname(user.getLastname());
-        userDto.setName(user.getName().concat(" ").concat(user.getLastname()));
+        //userDto.setName(user.getName().concat(" ").concat(user.getLastname()));
+        userDto.setUser(user);
         userDto.setTitle("User Details");
         
         return userDto;
