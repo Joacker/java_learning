@@ -4,7 +4,7 @@ import com.joaquin.springboot.webapp.springboot_web.models.User;
 public class UserDto {
 
     
-    //private User user;
+    private User user;
     // private String user;
     // private String lastname;
     private String title;
@@ -22,7 +22,12 @@ public class UserDto {
     public void setTitle(String title) {
         this.title = title;
     }
-    
+    public User getUser() {
+        return user;
+    }
+    public void setUser(User user) {
+        this.user = user;
+    }
     // public String getUser() {
     //     return user;
     // }
@@ -36,12 +41,7 @@ public class UserDto {
     //     this.lastname = lastname;
     // }
     
-    // public User getUser() {
-    //     return user;
-    // }
-    // public void setUser(User user) {
-    //     this.user = user;
-    // }
+    
 
     
 }
