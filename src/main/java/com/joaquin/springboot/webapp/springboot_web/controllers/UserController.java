@@ -3,6 +3,9 @@ package com.joaquin.springboot.webapp.springboot_web.controllers;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+
 import com.joaquin.springboot.webapp.springboot_web.models.User;
 
 @Controller
@@ -12,6 +15,7 @@ public class UserController {
     public String details(Model model) {
 
         User user = new User("Joaquin", "Fernandez");
+        user.setEmail("joaquin@correo.com");
         model.addAttribute("title", "User Details");
         model.addAttribute("name", "Joaquin");
         model.addAttribute("lastname", "Fernandez");
@@ -22,4 +26,8 @@ public class UserController {
         return "details";
     }
 
+    @GetMapping("/details")
+    public String list(ModelMap model) {
+        
+    }
 }
