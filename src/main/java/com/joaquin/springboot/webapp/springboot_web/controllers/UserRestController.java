@@ -10,7 +10,6 @@ import com.joaquin.springboot.webapp.springboot_web.models.User;
 import com.joaquin.springboot.webapp.springboot_web.models.dto.UserDto;
 
 import java.util.Map;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 @RestController

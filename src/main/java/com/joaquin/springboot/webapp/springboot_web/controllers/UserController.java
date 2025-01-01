@@ -2,11 +2,10 @@ package com.joaquin.springboot.webapp.springboot_web.controllers;
 
 import java.util.List;
 import java.util.ArrayList;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.stereotype.Controller;
 import com.joaquin.springboot.webapp.springboot_web.models.User;
 
 @Controller
@@ -27,11 +26,12 @@ public class UserController {
         return "details";
     }
 
-    @GetMapping("/details")
+    @GetMapping("/list")
     public String list(ModelMap model) {
        List<User> users = new ArrayList<>(); 
-       
+
        model.addAttribute("users", users);
-         return "list";
+       model.addAttribute("title", "Listado de usuarios");
+        return "list";
     }
 }
