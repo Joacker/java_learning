@@ -33,8 +33,13 @@ public class RequestParamsController {
     public ParamDtoMix request(HttpServletRequest request) {
 
         ParamDtoMix params = new ParamDtoMix();
-        params.setMessage(request.getParameter("message"));
-        params.setCode(Integer.parseInt(request.getParameter("code")));
+        try {
+            params.setMessage(request.getParameter("message"));
+            params.setCode(Integer.parseInt(request.getParameter("code")));
+        } catch (Exception e) {
+            params.setMessage("Error");
+            params.setCode(500);
+        }
 
         return params;
     }
