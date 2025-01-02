@@ -12,7 +12,7 @@ import com.joaquin.springboot.webapp.springboot_web.models.dto.ParamDto;
 public class RequestParamsController {
 
     @GetMapping("/foo")
-    public ParamDto foo(@RequestParam String message) {
+    public ParamDto foo(@RequestParam(required = false, defaultValue = "Hola que tal", name = "mensaje") String message) {
         ParamDto paramDto = new ParamDto();
         paramDto.setMessage(message);
         return paramDto;
