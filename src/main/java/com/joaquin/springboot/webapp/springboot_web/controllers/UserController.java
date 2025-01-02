@@ -32,8 +32,9 @@ public class UserController {
     public String list(ModelMap model) {
        List<User> users = Arrays.asList(
         new User("pepa", "gonzalez"), 
-        new User("lola", "lopez"), 
-        new User("pepe", "perez")); 
+        new User("lola", "lopez", "lola@correo.com"), 
+        new User("pepe", "perez", "pepe@correo.com"),
+        new User("joaquin", "doe", "joaquin@corre.com")); 
 
        model.addAttribute("users", users);
        model.addAttribute("title", "Listado de usuarios");
