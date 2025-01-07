@@ -9,6 +9,8 @@ import com.joaquin.springboot.webapp.springboot_web.models.dto.ParamDto;
 
 import java.util.Map;
 import java.util.HashMap;
+import com.joaquin.springboot.webapp.springboot_web.models.User;
+
 @RestController
 @RequestMapping("/api/var")
 public class PathVariableController {
@@ -26,8 +28,14 @@ public class PathVariableController {
         Map<String, Object> json = new HashMap<>();
         json.put("product", product);
         json.put("id", id);
-        
+
         return json;
     }
     
+    @GetMapping("/create")
+    public User create(User user) {
+        
+        
+        return user;
+    }
 }
