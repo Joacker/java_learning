@@ -13,7 +13,7 @@ import com.joaquin.springboot.webapp.springboot_web.models.dto.ParamDto;
 public class PathVariableController {
 
     @GetMapping("/baz/{message}")
-    public ParamDto baz(@PathVariable String message) {
+    public ParamDto baz(@PathVariable(name = "mensaje") String message) {
         ParamDto param = new ParamDto();
         param.setMessage(message);
         return param;
