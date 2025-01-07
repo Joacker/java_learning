@@ -3,7 +3,9 @@ package com.joaquin.springboot.webapp.springboot_web.controllers;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.joaquin.springboot.webapp.springboot_web.models.dto.ParamDto;
 
@@ -32,10 +34,11 @@ public class PathVariableController {
         return json;
     }
     
-    @GetMapping("/create")
-    public User create(User user) {
-        
-        
+    @PostMapping("/create")
+    public User create(@RequestBody User user) {
+        // Create user
+        user.setName(user.getName().toUpperCase());
+    
         return user;
     }
 }
