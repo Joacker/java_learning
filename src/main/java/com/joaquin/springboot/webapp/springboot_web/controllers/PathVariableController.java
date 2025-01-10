@@ -21,8 +21,8 @@ public class PathVariableController {
     @Value("${config.username}")
     private String username;
 
-    @Value("${config.message}")
-    private String message;
+    //@Value("${config.message}")
+    //private String message;
     
     @Value("${config.listOfValues}")
     private String []listOfValues;
@@ -32,7 +32,7 @@ public class PathVariableController {
 
     @GetMapping("/baz/{message}")
     public ParamDto baz(@PathVariable String message) {
-        
+
         ParamDto param = new ParamDto();
         param.setMessage(message);
         return param;
@@ -57,7 +57,7 @@ public class PathVariableController {
     }
 
     @GetMapping("/values")
-    public Map<String, Object> values() {
+    public Map<String, Object> values(@Value("${config.message}") String message) {
 
         Map<String, Object> json = new HashMap<>();
         json.put("username", username);
