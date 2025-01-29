@@ -15,5 +15,12 @@
         <li th:text="${currentDate}"></li>
         <li th:text="${user.name}"></li>
     </ul>
+    <a th:href="@{/list}">Ver Listado</a><br>
+    <a th:href="@{'/api/params/foo?message=' + ${title}}">Ver mensaje</a><br>
+    <a th:href="@{/api/params/foo(message='Hola que tal')}">Ver mensaje</a><br>
+    <a th:href="@{/api/params/bar(text='Hola que tal', code=32323)}">Ver bar mix 2</a><br>
+    <a th:href="@{/api/params/bar(text='Hola que tal', code=32323)}">Ver bar mix 2</a><br>
+    <a th:href="@{/api/var/baz/message}">Ver var path variable</a><br>
+    <a th:href="@{'/api/var/baz/' + ${title}}">Ver var path variable title</a><br>
 </body>
 </html>
