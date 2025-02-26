@@ -3,9 +3,10 @@ import java.util.Arrays;
 import java.util.List;
 import com.joaquin.springboot.di.app.springboot_di.models.Product;
 
-import org.springframework.stereotype.Component;
+//import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
-@Component
+@Repository
 public class ProductRepositoryImpl implements ProductRepository {
 
     private List<Product> data;

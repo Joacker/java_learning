@@ -13,8 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class SomeController {
 
     //private ProductServiceImpl service = new ProductServiceImpl();
-    @Autowired
+    //@Autowired
     private ProductService service;
+    
+    public SomeController(ProductService service) {
+        this.service = service;
+    }
 
     @GetMapping
     public List<Product> list() {

@@ -3,21 +3,26 @@ package com.joaquin.springboot.di.app.springboot_di.services;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import com.joaquin.springboot.di.app.springboot_di.models.Product;
 import com.joaquin.springboot.di.app.springboot_di.repositories.ProductRepository;
 
 
-@Component
+@Repository
 public class ProductServiceImpl implements ProductService {
 
     // Repositry es la capa de acceso a datos
     //private ProductRepositoryImpl repository = new ProductRepositoryImpl();
-    @Autowired
+    //@Autowired
     private ProductRepository repository;
-    
+
+    public ProductServiceImpl(ProductRepository repository) {
+        this.repository = repository;
+    }
+
     @Override
     public List<Product> findAll() {
         return repository.findAll().stream().map(p -> {
@@ -34,4 +39,5 @@ public class ProductServiceImpl implements ProductService {
     public Product findById(long id){
         return repository.findById(id);
     }
+    
 }
