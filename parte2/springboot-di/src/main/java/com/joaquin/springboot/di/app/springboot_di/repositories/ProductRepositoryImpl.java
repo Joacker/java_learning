@@ -3,6 +3,9 @@ import java.util.Arrays;
 import java.util.List;
 import com.joaquin.springboot.di.app.springboot_di.models.Product;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class ProductRepositoryImpl implements ProductRepository {
 
     private List<Product> data;
