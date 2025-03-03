@@ -5,7 +5,8 @@ import com.joaquin.springboot.di.app.springboot_di.models.Product;
 
 //import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
-
+import org.springframework.context.annotation.Primary;
+//@Primary
 @Repository
 public class ProductRepositoryImpl implements ProductRepository {
 
