@@ -11,12 +11,15 @@ import com.example.demo.demo.entity.Articulo;
 
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PutMapping;
+
 
 @RestController
 @RequestMapping("/version1/articulos")
@@ -54,9 +57,20 @@ public class ArticuloController {
         }
     }
 
+    @PostMapping()
     public ResponseEntity<Articulo> create(@RequestBody Articulo articulo) {
         Articulo registro = service.save(articulo);
         return ResponseEntity.status(HttpStatus.CREATED).body(registro);
+    }
+
+    @PutMapping(value="/{id}")
+    public ResponseEntity<Articulo> update(@PathVariable("id") int id, @RequestBody Articulo articulo) {
+        Articulo registro = service.update(articulo);
+        if (registro == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.status(HttpStatus.CREATED).body(registro);
+        }
     }
 
 }
