@@ -12,7 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Builder
 public class ArticuloDTO {
-    private int id;
+    private Integer id;
     private String nombre;
     private Double precio;
 }

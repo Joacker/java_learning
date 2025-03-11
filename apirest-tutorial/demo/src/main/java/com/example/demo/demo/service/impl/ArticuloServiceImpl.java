@@ -54,16 +54,32 @@ public class ArticuloServiceImpl implements ArticuloService{
     }
 
     @Override
-    public Articulo save(Articulo articulo) {
-       try {
-            ArticuloValidator.save(articulo);
-            articulo.setActivo(true);
-            Articulo registro = repository.save(articulo);
-            return registro;
-       } catch (Exception e) {
-           return null;
-       }
-    }
+public Articulo save(Articulo articulo) {
+   try {
+        ArticuloValidator.save(articulo);
+        
+        // Asegurar que el artículo no tenga un ID inválido antes de guardar
+        if (articulo.getId() != null && articulo.getId() == 0) {
+            System.out.println("🚨 ERROR: Intentando guardar un Artículo con ID = 0.");
+            return null;
+        }
+
+        articulo.setActivo(true);  // Asegurar que está activo antes de guardar
+        Articulo registro = repository.save(articulo);
+
+        if (registro == null) {
+            System.out.println("🚨 ERROR: `repository.save()` devolvió NULL.");
+        } else {
+            System.out.println("✅ Artículo guardado con éxito: " + registro);
+        }
+
+        return registro;
+   } catch (Exception e) {
+       System.out.println("❌ ERROR en `save()`: " + e.getMessage());
+       e.printStackTrace();
+       return null;
+   }
+}
 
     @Override
     public Articulo update(Articulo articulo) {

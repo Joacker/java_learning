@@ -13,8 +13,8 @@ public abstract class AbstractConverter<E,D> {
         .collect(Collectors.toList());
     }
 
-    public List<E> fromDTO(List<D> dtoList){
-        return dtoList.stream()
+    public List<E> fromDTO(List<D> dtos){
+        return dtos.stream()
         .map(e -> fromDTO(e))
         .collect(Collectors.toList());
     }

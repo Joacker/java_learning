@@ -10,6 +10,9 @@ public class ArticuloConverter extends AbstractConverter<Articulo /* Entidad */,
 
     @Override
     public ArticuloDTO fromEntity(Articulo entity) { //convertir de una entidad a un DTO
+        if(entity == null){
+            return null;
+        }
         return ArticuloDTO.builder()
         .id(entity.getId())
         .nombre(entity.getNombre())
