@@ -14,3 +14,9 @@ services:
       - MYSQL_DATABASE=tarea3
     volumes:
       -  ./sql/schema.sql:/docker-entrypoint-initdb.d/1.sql
+  
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8090:8080
