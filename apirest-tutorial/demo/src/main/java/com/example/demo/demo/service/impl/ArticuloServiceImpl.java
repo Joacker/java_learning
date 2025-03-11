@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import com.example.demo.demo.entity.Articulo;
 import com.example.demo.demo.repository.ArticuloRepository;
 import com.example.demo.demo.service.ArticuloService;
+import com.example.demo.demo.validator.ArticuloValidator;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -55,6 +56,7 @@ public class ArticuloServiceImpl implements ArticuloService{
     @Override
     public Articulo save(Articulo articulo) {
        try {
+            ArticuloValidator.save(articulo);
             articulo.setActivo(true);
             Articulo registro = repository.save(articulo);
             return registro;
@@ -66,6 +68,7 @@ public class ArticuloServiceImpl implements ArticuloService{
     @Override
     public Articulo update(Articulo articulo) {
        try {
+            ArticuloValidator.save(articulo);
             Articulo registro = repository.findById(articulo.getId()).orElseThrow();
             registro.setNombre(articulo.getNombre());
             registro.setPrecio(articulo.getPrecio());
