@@ -5,9 +5,14 @@ import java.util.List;
 import org.springframework.data.domain.Pageable;
 
 import com.example.demo.demo.entity.Articulo;
+import com.example.demo.demo.exceptions.NoDataFoundException;
+import com.example.demo.demo.exceptions.ValidateServiceException;
 import com.example.demo.demo.repository.ArticuloRepository;
 import com.example.demo.demo.service.ArticuloService;
 import com.example.demo.demo.validator.ArticuloValidator;
+import com.example.demo.demo.exceptions.GeneralServiceException;
+
+import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+@Slf4j
 @Service
 public class ArticuloServiceImpl implements ArticuloService{
     @Autowired //Para la inyeccion de dependencias, para agregar en un objeto la dependencia de ArticuloRepository (nuestro repositorio)
@@ -26,8 +32,12 @@ public class ArticuloServiceImpl implements ArticuloService{
         try {
             //lista de todos los articulos y/o registros
             return repository.findAll(page).toList();
+        } catch (NoDataFoundException e) {
+            log.info(e.getMessage(),e);
+            throw e;
         } catch (Exception e) {
-            return null;
+            log.error(e.getMessage(), e);;
+            throw new GeneralServiceException("Error en la capa de servicio", e);
         }
     }
 
@@ -37,8 +47,12 @@ public class ArticuloServiceImpl implements ArticuloService{
         try {
             //lista de todos los articulos y/o registros
             return repository.findByNombreContaining(nombre,page);
+        } catch (ValidateServiceException | NoDataFoundException e) {
+            log.info(e.getMessage(),e);
+            throw e;
         } catch (Exception e) {
-            return null;
+            log.error(e.getMessage(), e);;
+            throw new GeneralServiceException("Error en la capa de servicio", e);
         }
     }
 
@@ -46,64 +60,69 @@ public class ArticuloServiceImpl implements ArticuloService{
     @Transactional(readOnly=true)
     public Articulo findById(int id) {
         try {
-            Articulo registro = repository.findById(id).orElseThrow();
+            Articulo registro = repository.findById(id).orElseThrow(()->
+                new NoDataFoundException("No se encontro el articulo con el id: "+id));
             return registro;
+        } catch (ValidateServiceException | NoDataFoundException e) {
+            log.info(e.getMessage(),e);
+            throw e;
         } catch (Exception e) {
-            return null;
+            log.error(e.getMessage(), e);;
+            throw new GeneralServiceException("Error en la capa de servicio", e);
         }
     }
 
     @Override
-public Articulo save(Articulo articulo) {
-   try {
-        ArticuloValidator.save(articulo);
-        
-        // Asegurar que el artículo no tenga un ID inválido antes de guardar
-        if (articulo.getId() != null && articulo.getId() == 0) {
-            System.out.println("🚨 ERROR: Intentando guardar un Artículo con ID = 0.");
-            return null;
+    @Transactional
+    public Articulo save(Articulo articulo) {
+       try {
+            ArticuloValidator.save(articulo);
+            articulo.setActivo(true);
+            Articulo registro = repository.save(articulo);
+            return registro;
+       } catch (ValidateServiceException | NoDataFoundException e) {
+            log.info(e.getMessage(),e);
+            throw e;
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);;
+            throw new GeneralServiceException("Error en la capa de servicio", e);
         }
-
-        articulo.setActivo(true);  // Asegurar que está activo antes de guardar
-        Articulo registro = repository.save(articulo);
-
-        if (registro == null) {
-            System.out.println("🚨 ERROR: `repository.save()` devolvió NULL.");
-        } else {
-            System.out.println("✅ Artículo guardado con éxito: " + registro);
-        }
-
-        return registro;
-   } catch (Exception e) {
-       System.out.println("❌ ERROR en `save()`: " + e.getMessage());
-       e.printStackTrace();
-       return null;
-   }
-}
+    }
 
     @Override
+    @Transactional
     public Articulo update(Articulo articulo) {
        try {
             ArticuloValidator.save(articulo);
-            Articulo registro = repository.findById(articulo.getId()).orElseThrow();
+            Articulo registro = repository.findById(articulo.getId()).orElseThrow(()->
+                new NoDataFoundException("No se encontro el articulo con el id: "+articulo.getId()));
             registro.setNombre(articulo.getNombre());
             registro.setPrecio(articulo.getPrecio());
             repository.save(registro);
             return registro;
-       }catch (Exception e) {
-           return null;
-       }
+       } catch (ValidateServiceException | NoDataFoundException e) {
+            log.info(e.getMessage(),e);
+            throw e;
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);;
+            throw new GeneralServiceException("Error en la capa de servicio", e);
+        }
     }
 
     @Override
+    @Transactional
     public void delete(int id) {
         try{
-            Articulo registro = repository.findById(id).orElseThrow();
+            Articulo registro = repository.findById(id).orElseThrow(()->
+                new NoDataFoundException("No se encontro el articulo con el id: "+id));
             repository.delete(registro);
+        } catch (ValidateServiceException | NoDataFoundException e) {
+            log.info(e.getMessage(),e);
+            throw e;
         } catch (Exception e) {
-            
-        } 
+            log.error(e.getMessage(), e);;
+            throw new GeneralServiceException("Error en la capa de servicio", e);
+        }
     }
-
 
 }
