@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import org.springframework.web.bind.annotation.RequestBody;
-
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 @RestController
@@ -24,7 +24,7 @@ public class ArticuloController {
     @Autowired
     private ArticuloService service;
 
-    @GetMapping("path")
+    @GetMapping()
     public ResponseEntity<List<Articulo>> findAll(
             @RequestParam(value = "nombre", required = false, defaultValue = "") String nombre,
             @RequestParam(value = "offset", required = false, defaultValue = "0") int pageNumber,
@@ -44,6 +44,7 @@ public class ArticuloController {
         return ResponseEntity.ok(articulos);
     }
 
+    @GetMapping(value="/{id}")
     public ResponseEntity<Articulo> findById(@PathVariable("id") int id) {
         Articulo articulo = service.findById(id);
         if (articulo == null) {
@@ -55,7 +56,7 @@ public class ArticuloController {
 
     public ResponseEntity<Articulo> create(@RequestBody Articulo articulo) {
         Articulo registro = service.save(articulo);
-        return ResponseEntity.ok(registro);
+        return ResponseEntity.status(HttpStatus.CREATED).body(registro);
     }
 
 }
