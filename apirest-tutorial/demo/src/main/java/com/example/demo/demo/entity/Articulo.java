@@ -33,4 +33,6 @@ public class Articulo {
     @Temporal(TemporalType.TIMESTAMP)
     @LastModifiedDate
     private Date updateAt;
+    @Column(name = "activo", nullable = false)
+    private Boolean activo;
 }
