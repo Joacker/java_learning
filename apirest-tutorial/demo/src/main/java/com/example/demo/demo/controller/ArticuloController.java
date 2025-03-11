@@ -5,6 +5,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.example.demo.demo.service.ArticuloService;
+import com.example.demo.demo.utils.WrapperResponse;
 import com.example.demo.demo.entity.Articulo;
 
 import java.util.List;
@@ -51,24 +52,27 @@ public class ArticuloController {
             return ResponseEntity.notFound().build();
         }
         List<ArticuloDTO> articulosDTO = converter.fromEntity(articulos);
-        return ResponseEntity.ok(articulosDTO);
+        return new WrapperResponse(true, "success", articulosDTO).createResponse(HttpStatus.OK);
     }
 
     @GetMapping(value="/{id}")
-    public ResponseEntity<ArticuloDTO> findById(@PathVariable("id") int id) {
+    public ResponseEntity<WrapperResponse<ArticuloDTO>> findById(@PathVariable("id") int id) {
+    //public ResponseEntity<ArticuloDTO> findById(@PathVariable("id") int id) {
         Articulo articulo = service.findById(id);
         if (articulo == null) {
             return ResponseEntity.notFound().build();
         } 
         ArticuloDTO articuloDTO = converter.fromEntity(articulo);
-        return ResponseEntity.ok(articuloDTO);
+        //return ResponseEntity.ok(articuloDTO);
+        return new WrapperResponse<ArticuloDTO>(true, "success", articuloDTO).createResponse(HttpStatus.OK);
     }
 
     @PostMapping()
     public ResponseEntity<ArticuloDTO> create(@RequestBody ArticuloDTO articuloDTO) {
         Articulo registro = service.save(converter.fromDTO(articuloDTO));
         ArticuloDTO registroDTO = converter.fromEntity(registro);
-        return ResponseEntity.status(HttpStatus.CREATED).body(registroDTO);
+        //return ResponseEntity.status(HttpStatus.CREATED).body(registroDTO);
+        return new WrapperResponse(true, "success", registroDTO).createResponse(HttpStatus.CREATED);
     }
 
     @PutMapping(value="/{id}")
@@ -78,13 +82,15 @@ public class ArticuloController {
             return ResponseEntity.notFound().build();
         } else {
             ArticuloDTO registroDTO = converter.fromEntity(registro);
-            return ResponseEntity.status(HttpStatus.CREATED).body(registroDTO);
+            //return ResponseEntity.status(HttpStatus.CREATED).body(registroDTO);
+            return new WrapperResponse(true, "success", registroDTO).createResponse(HttpStatus.OK);
         }
     }
 
     @DeleteMapping(value="/{id}")
     public ResponseEntity<ArticuloDTO> delete(@PathVariable("id") int id) {
         service.delete(id);
-        return ResponseEntity.ok(null);
+        //return ResponseEntity.ok(null);
+        return new WrapperResponse(true, "success", null).createResponse(HttpStatus.OK);
     }
 }
