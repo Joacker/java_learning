@@ -1,8 +1,11 @@
 package com.example.demo.demo.converter;
 
+import org.springframework.stereotype.Component;
+
 import com.example.demo.demo.dto.ArticuloDTO;
 import com.example.demo.demo.entity.Articulo;
 
+@Component
 public class ArticuloConverter extends AbstractConverter<Articulo /* Entidad */, ArticuloDTO /* DTO */> {
 
     @Override
@@ -16,6 +19,9 @@ public class ArticuloConverter extends AbstractConverter<Articulo /* Entidad */,
 
     @Override
     public Articulo fromDTO(ArticuloDTO dto) { //convertir de un DTO a una entidad
+        if(dto == null){
+            return null;
+        }
         return Articulo.builder()
         .id(dto.getId())
         .nombre(dto.getNombre())

@@ -21,18 +21,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
-
+import com.example.demo.demo.converter.ArticuloConverter;
+import com.example.demo.demo.dto.ArticuloDTO;
 
 @RestController
 @RequestMapping("/v1/articulos")
 public class ArticuloController {
-    
     @Autowired
     private ArticuloService service;
 
+    @Autowired
+    private ArticuloConverter converter;
+
     @GetMapping()
-    public ResponseEntity<List<Articulo>> findAll(
+    public ResponseEntity<List<ArticuloDTO>> findAll(
             @RequestParam(value = "nombre", required = false, defaultValue = "") String nombre,
             @RequestParam(value = "offset", required = false, defaultValue = "0") int pageNumber,
             @RequestParam(value = "limit", required = false, defaultValue = "5") int pageSize
@@ -47,38 +49,41 @@ public class ArticuloController {
 
         if (articulos == null) {
             return ResponseEntity.notFound().build();
-        } 
-        return ResponseEntity.ok(articulos);
+        }
+        List<ArticuloDTO> articulosDTO = converter.fromEntity(articulos);
+        return ResponseEntity.ok(articulosDTO);
     }
 
     @GetMapping(value="/{id}")
-    public ResponseEntity<Articulo> findById(@PathVariable("id") int id) {
+    public ResponseEntity<ArticuloDTO> findById(@PathVariable("id") int id) {
         Articulo articulo = service.findById(id);
         if (articulo == null) {
             return ResponseEntity.notFound().build();
-        } else {
-            return ResponseEntity.ok(articulo);
-        }
+        } 
+        ArticuloDTO articuloDTO = converter.fromEntity(articulo);
+        return ResponseEntity.ok(articuloDTO);
     }
 
     @PostMapping()
-    public ResponseEntity<Articulo> create(@RequestBody Articulo articulo) {
-        Articulo registro = service.save(articulo);
-        return ResponseEntity.status(HttpStatus.CREATED).body(registro);
+    public ResponseEntity<ArticuloDTO> create(@RequestBody ArticuloDTO articuloDTO) {
+        Articulo registro = service.save(converter.fromDTO(articuloDTO));
+        ArticuloDTO registroDTO = converter.fromEntity(registro);
+        return ResponseEntity.status(HttpStatus.CREATED).body(registroDTO);
     }
 
     @PutMapping(value="/{id}")
-    public ResponseEntity<Articulo> update(@PathVariable("id") int id, @RequestBody Articulo articulo) {
-        Articulo registro = service.update(articulo);
+    public ResponseEntity<ArticuloDTO> update(@PathVariable("id") int id, @RequestBody ArticuloDTO articuloDTO) {
+        Articulo registro = service.update(converter.fromDTO(articuloDTO));
         if (registro == null) {
             return ResponseEntity.notFound().build();
         } else {
-            return ResponseEntity.status(HttpStatus.CREATED).body(registro);
+            ArticuloDTO registroDTO = converter.fromEntity(registro);
+            return ResponseEntity.status(HttpStatus.CREATED).body(registroDTO);
         }
     }
 
     @DeleteMapping(value="/{id}")
-    public ResponseEntity<Void> delete(@PathVariable("id") int id) {
+    public ResponseEntity<ArticuloDTO> delete(@PathVariable("id") int id) {
         service.delete(id);
         return ResponseEntity.ok(null);
     }
