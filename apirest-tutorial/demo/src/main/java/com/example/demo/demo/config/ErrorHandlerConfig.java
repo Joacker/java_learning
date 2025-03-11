@@ -29,16 +29,16 @@ public class ErrorHandlerConfig extends ResponseEntityExceptionHandler{
 
     @ExceptionHandler(ValidateServiceException.class)
     public ResponseEntity<?> validateService(Exception e, WebRequest request){
-        log.error(e.getMessage(),e);
+        log.info(e.getMessage(),e);
         WrapperResponse<?> response = new WrapperResponse<>(false, e.getMessage(), null);
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(NoDataFoundException.class)
     public ResponseEntity<?> noData(Exception e, WebRequest request){
-        log.error(e.getMessage(),e);
+        log.info(e.getMessage(),e);
         WrapperResponse<?> response = new WrapperResponse<>(false, e.getMessage(), null);
-        return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(GeneralServiceException.class)

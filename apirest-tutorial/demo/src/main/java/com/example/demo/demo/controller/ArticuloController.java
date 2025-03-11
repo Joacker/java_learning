@@ -42,15 +42,15 @@ public class ArticuloController {
             ) {
         Pageable page = PageRequest.of(pageNumber, pageSize);
         List<Articulo> articulos;
-        if (nombre==null || nombre.isEmpty()) {
+        if (nombre==null /*|| nombre.isEmpty()*/) {
             articulos = service.findAll(page);
         } else {
             articulos = service.findByNombre(nombre, page);
         }
 
-        if (articulos == null) {
+        /*if (articulos == null) {
             return ResponseEntity.notFound().build();
-        }
+        }*/
         List<ArticuloDTO> articulosDTO = converter.fromEntity(articulos);
         return new WrapperResponse(true, "success", articulosDTO).createResponse(HttpStatus.OK);
     }
@@ -59,9 +59,9 @@ public class ArticuloController {
     public ResponseEntity<WrapperResponse<ArticuloDTO>> findById(@PathVariable("id") int id) {
     //public ResponseEntity<ArticuloDTO> findById(@PathVariable("id") int id) {
         Articulo articulo = service.findById(id);
-        if (articulo == null) {
+        /*if (articulo == null) {
             return ResponseEntity.notFound().build();
-        } 
+        }*/
         ArticuloDTO articuloDTO = converter.fromEntity(articulo);
         //return ResponseEntity.ok(articuloDTO);
         return new WrapperResponse<ArticuloDTO>(true, "success", articuloDTO).createResponse(HttpStatus.OK);
@@ -78,13 +78,13 @@ public class ArticuloController {
     @PutMapping(value="/{id}")
     public ResponseEntity<ArticuloDTO> update(@PathVariable("id") int id, @RequestBody ArticuloDTO articuloDTO) {
         Articulo registro = service.update(converter.fromDTO(articuloDTO));
-        if (registro == null) {
+        /*if (registro == null) {
             return ResponseEntity.notFound().build();
-        } else {
-            ArticuloDTO registroDTO = converter.fromEntity(registro);
+        }*/
+        ArticuloDTO registroDTO = converter.fromEntity(registro);
             //return ResponseEntity.status(HttpStatus.CREATED).body(registroDTO);
-            return new WrapperResponse(true, "success", registroDTO).createResponse(HttpStatus.OK);
-        }
+        return new WrapperResponse(true, "success", registroDTO).createResponse(HttpStatus.OK);
+        
     }
 
     @DeleteMapping(value="/{id}")
