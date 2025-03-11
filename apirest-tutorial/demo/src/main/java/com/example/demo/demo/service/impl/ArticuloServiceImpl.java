@@ -35,7 +35,7 @@ public class ArticuloServiceImpl implements ArticuloService{
     public List<Articulo> findByNombre(String nombre, Pageable page) {
         try {
             //lista de todos los articulos y/o registros
-            return repository.findByNombreContaining(nombre, null);
+            return repository.findByNombreContaining(nombre,page);
         } catch (Exception e) {
             return null;
         }

@@ -25,8 +25,9 @@ import org.springframework.http.ResponseEntity;
 
 
 @RestController
-@RequestMapping("/version1/articulos")
+@RequestMapping("/v1/articulos")
 public class ArticuloController {
+    
     @Autowired
     private ArticuloService service;
 
