@@ -18,6 +18,8 @@ public class RequestParamsController {
     public ParamDto foo(@RequestParam(required = false, defaultValue = "Hola que tal", name = "mensaje") String message) {
         ParamDto paramDto = new ParamDto();
         paramDto.setMessage(message);
+        paramDto.setName2("Name2");
+        System.out.println(paramDto.toString());
         return paramDto;
     }
 
