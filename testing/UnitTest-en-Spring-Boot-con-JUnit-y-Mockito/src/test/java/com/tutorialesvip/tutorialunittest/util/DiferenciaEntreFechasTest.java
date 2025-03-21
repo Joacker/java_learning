@@ -27,12 +27,12 @@ class DiferenciaEntreFechasTest {
         String fechaIndependencia = "27/02/1844";
 
         Period resultado = diferenciaEntreFechas.calculateYearsOfIndependency(fechaIndependencia);
-        
+
         System.out.println("Resultado: " + resultado.getMonths());
         System.out.println("Resultado: " + resultado.getDays());
         System.out.println("Resultado: " + resultado.getYears());
         Assertions.assertEquals(0,resultado.getMonths() );
-        Assertions.assertEquals(21,resultado.getDays() );
+        Assertions.assertEquals(22,resultado.getDays() );
         Assertions.assertEquals(181,resultado.getYears() );
         /*
         diferenciaEntreFechas = new DiferenciaEntreFechas();

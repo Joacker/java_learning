@@ -16,41 +16,41 @@ public class CountryResponse {
         this.countryName = countryName;
     }
 
-    public String getCapitalName() {
-        return capitalName;
-    }
+    // public String getCapitalName() {
+    //     return capitalName;
+    // }
 
     public void setCapitalName(String capitalName) {
         this.capitalName = capitalName;
     }
 
-    public String getIndependenceDate() {
-        return independenceDate;
-    }
+    // public String getIndependenceDate() {
+    //     return independenceDate;
+    // }
 
     public void setIndependenceDate(String independenceDate) {
         this.independenceDate = independenceDate;
     }
 
-    public int getYearsOfIndependency() {
-        return yearsOfIndependency;
-    }
+    // public int getYearsOfIndependency() {
+    //     return yearsOfIndependency;
+    // }
 
     public void setYearsOfIndependency(int yearsOfIndependency) {
         this.yearsOfIndependency = yearsOfIndependency;
     }
 
-    public int getMonthsOfIndependency() {
-        return monthsOfIndependency;
-    }
+    // public int getMonthsOfIndependency() {
+    //     return monthsOfIndependency;
+    // }
 
     public void setMonthsOfIndependency(int monthsOfIndependency) {
         this.monthsOfIndependency = monthsOfIndependency;
     }
 
-    public int getDayssOfIndependency() {
-        return dayssOfIndependency;
-    }
+    // public int getDayssOfIndependency() {
+    //     return dayssOfIndependency;
+    // }
 
     public void setDayssOfIndependency(int dayssOfIndependency) {
         this.dayssOfIndependency = dayssOfIndependency;

@@ -52,12 +52,23 @@ public class IndependencyControllerTest {
     }
 
     @Test
-    void getCountryDetails() {
+    void getCountryDetailsWithValidCountryCode() {
         //System.out.println("Prueba unitaria");
         ResponseEntity<CountryResponse> respuestaServicio;
 
         respuestaServicio = independencyController.getCountryDetails("DO");
         Assertions.assertEquals("República Dominicana", respuestaServicio.getBody().getCountryName());
+        //System.out.println("Respuesta: " + respuestaServicio);
+
+    }
+
+    @Test
+    void getCountryDetailsWithInvalidCountryCode() {
+        //System.out.println("Prueba unitaria");
+        ResponseEntity<CountryResponse> respuestaServicio;
+
+        respuestaServicio = independencyController.getCountryDetails("IT");
+        Assertions.assertNull(respuestaServicio.getBody().getCountryName());
         //System.out.println("Respuesta: " + respuestaServicio);
 
     }
