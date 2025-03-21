@@ -20,6 +20,7 @@ public class IndependencyController {
 
     CountryResponse countryResponse;
     Optional<Country> country;
+    //Manipula los datos dentro de la base de datos
     CountryRepository countryRepository;
     DiferenciaEntreFechas diferenciaEntreFechas;
 
@@ -30,12 +31,13 @@ public class IndependencyController {
 
     @GetMapping(path = "/country/{countryId}")
     public ResponseEntity<CountryResponse> getCountryDetails(@PathVariable("countryId") String countryId) {
+        // Es Optional porque no siempre va a encontrar un pais o traer datos
         country = Optional.of(new Country());
         countryResponse = new CountryResponse();
-
+        // Vamos a ir a buscar el pais por el codigo iso
         country = Optional.ofNullable(countryRepository.findCountryByIsoCode(countryId.toUpperCase()));
 
-        if (country.isPresent()) {
+        if (country.isPresent()/* Si está dentro de la base de datos */) {
             Period period = diferenciaEntreFechas.calculateYearsOfIndependency(country.get().getCountryIdependenceDate());
             countryResponse.setCountryName(country.get().getCountryName());
             countryResponse.setCapitalName(country.get().getCountryCapital());
