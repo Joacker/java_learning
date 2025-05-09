@@ -21,7 +21,7 @@ public class Product {
     @Column(columnDefinition = "TINYTEXT")
     private String summary;
 
-    @Column(nullable = false)
+    @Column(name = "created_at", nullable = true)
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime createdAt;
 
