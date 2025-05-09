@@ -31,13 +31,23 @@ public class Product {
     @Column(columnDefinition = "TEXT")
     private String content;
 
-    @ManyToOne()
-    @JoinColumn(name = "subcategoryid", insertable = false, updatable = false)
+    @ManyToOne
+    @JoinColumn(name = "subcategoryid", referencedColumnName = "id")
     private SubCategory subCategory;
-    private Long subcategoryid;
 
-    @ManyToOne()
-    @JoinColumn(name = "categoryid", insertable = false, updatable = false)
+    @ManyToOne
+    @JoinColumn(name = "categoryid", referencedColumnName = "id")
     private Category category;
-    private Long categoryid;
+
+    // === MÉTODOS PARA FECHAS AUTOMÁTICAS ===
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedAt = LocalDateTime.now();
+    }
 }
