@@ -37,7 +37,7 @@ public class SecurityConfig {
 
     // Creamos JwtAuthenticationFilter manualmente para evitar inyección circular
     @Bean
-    public JwtAuthenticationFilter jwtAuthFilter(JwtService jwtService, UserDetailsService userDetailsService) {
+    public JwtAuthenticationFilter jwtAuthFilter(JwtService jwtService, MyUserDetailsService userDetailsService) {
         return new JwtAuthenticationFilter(jwtService, userDetailsService);
     }
 

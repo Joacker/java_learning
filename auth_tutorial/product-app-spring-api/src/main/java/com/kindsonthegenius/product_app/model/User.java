@@ -14,6 +14,9 @@ public class User {
     private String username;
 
     @Transient
+    private String token;
+
+    @Transient
     private String password;
 
     @Column(name = "password_hash")
@@ -70,5 +73,13 @@ public class User {
 
     public void setPasswordHash(String passwordHash) {
         this.passwordHash = passwordHash;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }
