@@ -24,7 +24,7 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return user.getPasswordHash(); // ✅ Usa el hash bcrypt
     }
 
     @Override
