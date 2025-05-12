@@ -13,12 +13,11 @@ import java.util.List;
 public class UserService {
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-
     private final UserRepository userRepository;
 
-    public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder, BCryptPasswordEncoder bCryptPasswordEncoder1) {
+    public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userRepository = userRepository;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder1;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     public List<User> getUsers(){
@@ -30,11 +29,12 @@ public class UserService {
     }
 
     public User addUser(User user){
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
+        user.setPasswordHash(encodedPassword);
         return userRepository.save(user);
     }
 
-    public  User updateUser(User user) {
+    public User updateUser(User user) {
         return userRepository.save(user);
     }
 
@@ -44,16 +44,14 @@ public class UserService {
 
     public boolean authenticate(String username, String password) {
         User user = userRepository.findByUsername(username);
-
-        if(!user.getUsername().equals(username)){
+        if (user == null) {
             throw new UsernameNotFoundException("User does not exist in the database");
         }
 
         if (!bCryptPasswordEncoder.matches(password, user.getPasswordHash())) {
-            throw  new BadCredentialsException("The password is incorrect");
+            throw new BadCredentialsException("The password is incorrect");
         }
 
-        return  true;
+        return true;
     }
-
 }

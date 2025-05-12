@@ -73,7 +73,7 @@ export default function Login() {
             <TextField
               label="Username"
               variant="outlined"
-              sx={{ width: '100%' }}
+              fullWidth
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
@@ -83,7 +83,7 @@ export default function Login() {
               label="Password"
               variant="outlined"
               type="password"
-              sx={{ width: '100%' }}
+              fullWidth
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
