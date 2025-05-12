@@ -3,18 +3,34 @@ package com.kindsonthegenius.product_app.controllers;
 import com.kindsonthegenius.product_app.model.LoginRequest;
 import com.kindsonthegenius.product_app.services.UserService;
 import com.kindsonthegenius.product_app.model.User;
+import com.kindsonthegenius.product_app.security.MyUserDetailsService;
+
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import com.kindsonthegenius.product_app.services.JwtService;
 
 @RestController
 public class UserController {
 
     private UserService userService;
+
+    @Autowired
+    private MyUserDetailsService userDetailsService;
+
+    @Autowired
+    private JwtService jwtService;
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
     public UserController(UserService userService){
@@ -48,19 +64,22 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest, HttpSession session) {
-        try{
-            boolean isAuthenticated = userService.authenticate(loginRequest.getUsername(),loginRequest.getPassword());
+    public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
+        try {
+            UserDetails userDetails = userDetailsService.loadUserByUsername(loginRequest.getUsername());
 
-            if (isAuthenticated){
-                session.setAttribute("user", loginRequest.getUsername());
-                return ResponseEntity.ok("Login was successful!");
-            } else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
+            if (!passwordEncoder.matches(loginRequest.getPassword(), userDetails.getPassword())) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
             }
+
+            String jwtToken = jwtService.generateToken(userDetails);
+            return ResponseEntity.ok(jwtToken);
+
+        } catch (UsernameNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not found");
         } catch (Exception e) {
-            e.printStackTrace(); // <-- Imprime el error completo en consola
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Unexpected server error: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred: " + e.getMessage());
         }
     }
+
 }
