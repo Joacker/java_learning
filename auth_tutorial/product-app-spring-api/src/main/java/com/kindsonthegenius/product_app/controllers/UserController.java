@@ -1,6 +1,8 @@
 package com.kindsonthegenius.product_app.controllers;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -76,21 +78,30 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<Map<String, String>> login(@RequestBody LoginRequest loginRequest) {
         try {
             UserDetails userDetails = userDetailsService.loadUserByUsername(loginRequest.getUsername());
 
             if (!passwordEncoder.matches(loginRequest.getPassword(), userDetails.getPassword())) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+                Map<String, String> error = new HashMap<>();
+                error.put("error", "Invalid credentials");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
             }
 
             String jwtToken = jwtService.generateToken(userDetails);
-            return ResponseEntity.ok(jwtToken);
+            Map<String, String> response = new HashMap<>();
+            response.put("token", jwtToken);
+            return ResponseEntity.ok(response);
 
         } catch (UsernameNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not found");
+            Map<String, String> error = new HashMap<>();
+            error.put("error", "User not found");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
+
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred: " + e.getMessage());
+            Map<String, String> error = new HashMap<>();
+            error.put("error", "An error occurred: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
         }
     }
 

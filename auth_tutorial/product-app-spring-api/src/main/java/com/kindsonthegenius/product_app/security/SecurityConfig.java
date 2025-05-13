@@ -28,7 +28,7 @@ import java.util.List;
 public class SecurityConfig {
 
     @Autowired
-    private UserDetailsService userDetailsService;
+    private MyUserDetailsService userDetailsService;
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -37,8 +37,8 @@ public class SecurityConfig {
 
     // Creamos JwtAuthenticationFilter manualmente para evitar inyección circular
     @Bean
-    public JwtAuthenticationFilter jwtAuthFilter(JwtService jwtService, MyUserDetailsService userDetailsService) {
-        return new JwtAuthenticationFilter(jwtService, userDetailsService);
+    public JwtAuthenticationFilter jwtAuthFilter(JwtService jwtService) {
+        return new JwtAuthenticationFilter(jwtService, (MyUserDetailsService) userDetailsService);
     }
 
     @Bean
